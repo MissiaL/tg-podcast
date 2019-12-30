@@ -1,0 +1,17 @@
+.env
+.env.develop
+.env.prod
+
+
+*.log
+
+*.sqlite
+
+__pycache__/
+/.idea
+*.py[cod]
+*$py.class
+.storage
+.tools
+
+

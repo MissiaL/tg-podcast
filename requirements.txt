@@ -1,0 +1,10 @@
+peewee
+pydantic
+factory_boy
+requests
+funcy
+loguru
+python-telegram-bot
+python-dotenv
+PySocks
+click
