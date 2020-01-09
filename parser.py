@@ -3,8 +3,10 @@ import shutil
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urljoin
 
 import requests
+from bs4 import BeautifulSoup
 from splinter import Browser
 from splinter.driver.webdriver import BaseWebDriver
 
@@ -51,7 +53,6 @@ class AbstractParser(ABC):
     name = ''
 
     def __init__(self, db=None):
-        self.browser = init_browser()
         self.db = db or init_db()
 
     @abstractmethod
@@ -89,18 +90,19 @@ class AbstractParser(ABC):
             logger.info(f'Found new post: {url}')
         return exists
 
-    def __del__(self):
-        self.browser.quit()
-
 
 class EnglishSoundParser(AbstractParser):
     name = 'spotlightenglish'
 
     def parse_post(self, url) -> models.Post:
-        self.browser.visit(url)
-        title = self.browser.find_by_xpath("(//article[@class='program']//h2)[1]").text
-        text = self.browser.find_by_xpath('//*[@id="transcript"]').text
-        mp3_url = self.browser.find_by_xpath("(//a[@role='menuitem'])[1]")['href']
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        post = soup.find('article', class_='program')
+        title = post.find('header').find('h2').getText()
+        text = post.find(id='transcript').getText()
+        mp3_url = post.find('a', attrs={'role': 'menuitem'}, href=True)['href']
+
         created_at = datetime.now(timezone.utc)
         path_to_file = save_file(mp3_url, title)
 
@@ -114,11 +116,17 @@ class EnglishSoundParser(AbstractParser):
         )
 
     def urls(self) -> list:
-        self.browser.visit('https://www.spotlightenglish.com/listen')
-        urls = [e['href'] for e in self.browser.find_by_xpath("//aside[@class='media-body']//a")]
-        return urls
+        response = requests.get('https://www.spotlightenglish.com/listen/')
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        post_urls = []
+        posts = soup.find_all('h3', attrs={'class': 'media-heading'})
+        for post in posts:
+            href = post.find('a', href=True)['href']
+            post_urls.append(urljoin('https://www.spotlightenglish.com', href))
+
+        return post_urls
 
 
 if __name__ == '__main__':
     EnglishSoundParser().run()
-
