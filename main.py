@@ -7,7 +7,7 @@ def cli():
 
 
 @cli.command(help='Run parsers')
-def collect():
+def pull():
     from parser import EnglishSoundParser
     EnglishSoundParser().run()
 
@@ -19,7 +19,7 @@ def clean():
 
 
 @cli.command(help='Publish all posts from db')
-def publish():
+def push():
     from bot import publish
     publish()
 
