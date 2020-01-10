@@ -27,6 +27,7 @@ class PeeweeModelFactory(factory.Factory):
 class PostFactory(PeeweeModelFactory):
     url = factory.Faker('image_url')
     title = factory.Faker('catch_phrase')
+    description = factory.Faker('catch_phrase')
     text = factory.Faker('catch_phrase')
     published_at = factory.Faker('unix_time')
     file_path = factory.Faker('file_path')
@@ -59,6 +60,7 @@ def test_abstract_parser_test(db):
                 url=fake_model.url,
                 name=self.name,
                 title=fake_model.title,
+                description=fake_model.description,
                 text=fake_model.text,
                 file_path=fake_model.file_path
             )
