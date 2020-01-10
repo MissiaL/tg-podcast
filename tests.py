@@ -8,13 +8,7 @@ from db_models import Post
 from parser import AbstractParser
 
 
-class PeeweeModelFactory(factory.Factory):
-    """
-    Based on PeeweeModelFactory from factory_boy-peewee,
-    but _create doesn't calculate next pk,
-    so it works only with pk's that unique by design (eg, UUIDs)
-    """
-
+class ModelFactory(factory.Factory):
     class Meta:
         abstract = True
 
@@ -24,7 +18,7 @@ class PeeweeModelFactory(factory.Factory):
         return model
 
 
-class PostFactory(PeeweeModelFactory):
+class PostFactory(ModelFactory):
     url = factory.Faker('image_url')
     title = factory.Faker('catch_phrase')
     description = factory.Faker('catch_phrase')
