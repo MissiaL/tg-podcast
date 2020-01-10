@@ -3,4 +3,4 @@ push:
 	docker-compose run app python main.py push
 
 clear_storage:
-	docker-compose run app python main.py clear
+	docker-compose run app python main.py clean
