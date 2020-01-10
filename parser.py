@@ -28,7 +28,7 @@ def save_file(url, title):
     storage_dir = Path(settings.storage_path)
     storage_dir.mkdir(exist_ok=True)
     response = requests.get(url, stream=True)
-    file_path = storage_dir.joinpath(filename).absolute()
+    file_path = storage_dir.joinpath(filename)
     with open(file_path, 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
 
