@@ -9,6 +9,7 @@ class Post(BaseModel):
     name: str
     url: HttpUrl
     title: str
+    description:str
     text: str
     created_at: datetime = datetime.now(timezone.utc)
     published_at: Optional[str]

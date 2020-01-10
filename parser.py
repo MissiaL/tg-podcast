@@ -100,6 +100,7 @@ class EnglishSoundParser(AbstractParser):
 
         post = soup.find('article', class_='program')
         title = post.find('header').find('h2').getText()
+        description = post.find('div', class_='program-description').getText()
         text = post.find(id='transcript').getText()
         mp3_url = post.find('a', attrs={'role': 'menuitem'}, href=True)['href']
 
@@ -110,6 +111,7 @@ class EnglishSoundParser(AbstractParser):
             url=url,
             name=self.name,
             title=title,
+            description=description,
             text=text,
             created_at=created_at,
             file_path=path_to_file

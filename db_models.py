@@ -10,6 +10,7 @@ class Post(BaseModel):
     url = CharField(unique=True)
     name = CharField()
     title = CharField()
+    description = TextField()
     text = TextField()
     created_at = DateTimeField()
     published_at = DateTimeField(null=True)
