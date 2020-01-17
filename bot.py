@@ -6,6 +6,7 @@ from telegram.utils.request import Request
 from db_models import Post
 from log import logger
 from settings import settings
+from markdown_strings import esc_format
 
 
 def init_bot() -> telegram.Bot:
@@ -27,8 +28,8 @@ def init_bot() -> telegram.Bot:
 
 
 def prepare_message(post: Post) -> str:
-    message = f'*{post.title}*' \
-              f'{post.description}' \
+    message = f'*{esc_format(post.title)}*' \
+              f'{esc_format(post.description)}' \
               f'{post.url}\n\n' \
               f'#{post.name}'
     return message

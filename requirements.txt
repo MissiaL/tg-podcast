@@ -10,3 +10,4 @@ PySocks==1.7.1
 Click==7.0
 beautifulsoup4==4.8.2
 splinter==0.13.0
+markdown_strings
