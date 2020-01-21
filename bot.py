@@ -30,7 +30,7 @@ def init_bot() -> telegram.Bot:
 def prepare_message(post: Post) -> str:
     message = f'*{esc_format(post.title)}*' \
               f'{esc_format(post.description)}' \
-              f'{post.url}\n\n' \
+              f'{esc_format(post.url)}\n\n' \
               f'#{post.name}'
     return message
 
